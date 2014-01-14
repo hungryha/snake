@@ -13,6 +13,11 @@ window.onload = function() {
   var score;
   var snake_array; // array of cells that make up the snake, grows each time food is eaten
 
+  // Audio files
+  var mainMusic = document.getElementById("main_music");
+  var foodMusic = document.getElementById("food_music");
+
+  // Creates a snake array of length 5
   function initSnake() {
     var length = 5;
     snake_array = [];
@@ -50,8 +55,8 @@ window.onload = function() {
     return false;
   }
 
-  // Keypress event listener
-  document.onkeydown = function(e){
+  // Keydown event listener
+  document.addEventListener("keydown", function(e) {
     var key = e.which;
 
     // Second clause to prevents reverse gear
@@ -59,7 +64,7 @@ window.onload = function() {
     else if(key == "38" && direction != "down") direction = "up";
     else if(key == "39" && direction != "left") direction = "right";
     else if(key == "40" && direction != "up") direction = "down";
-  }
+  });
 
   function paintCanvas() {
 
@@ -112,6 +117,11 @@ window.onload = function() {
       // Creates new head, so snake becomes longer
       var tail = {x:head_x, y:head_y};
       createFood();
+
+      // Play food music
+      foodMusic.pause();
+      foodMusic.currentTime = 0;
+      foodMusic.play();
     }
     else {
       var tail = snake_array.pop();
@@ -143,6 +153,8 @@ window.onload = function() {
       clearInterval(game_loop);
     }
     game_loop = setInterval(render, 60);
+    mainMusic.currentTime = 0;
+    mainMusic.play();
   }
 
   init();
