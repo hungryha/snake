@@ -177,7 +177,7 @@ window.onload = function() {
     }
     else {
 
-      // TODO 8: uncomment tail variable. remove the tail from the snake_array. set tail to new head position
+      // TODO 8: remove the "tail" cell from the snake_array. set tail variable to new head position
       // Hint: use the pop() function of an array to remove the last element of the array
       //var tail = 
     }
