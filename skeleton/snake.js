@@ -119,15 +119,15 @@ window.onload = function() {
 
   function updateSnake() {
     /*
-     * This function checks for game over and updates the game state. The snake moves one unit in the direction it is facing. 
+     * This function checks for game over and updates the game state. The snake moves one unit in the direction it is facing.
      * The game ends when the snake collides with the wall or collides with itself. The snake grows when it collides with food.
      */
     var head_x = snake_array[0].x;
     var head_y = snake_array[0].y;
 
     // coordinates for the new head of the snake after moving a step in the direction its facing
-    var new_head_x;
-    var new_head_y; 
+    var new_head_x = head_x;
+    var new_head_y = head_y;
 
     // Assigns new head position based on direction
     // TODO 6: finish for the other directions
@@ -155,8 +155,8 @@ window.onload = function() {
     }
 
     /*
-     * There are 2 senarios every time the snake moves. The first one is that it collides with the food. 
-     * In this case, the food cell essentially becomes the new head of the snake. 
+     * There are 2 senarios every time the snake moves. The first one is that it collides with the food.
+     * In this case, the food cell essentially becomes the new head of the snake.
      * In the 2nd senario, the snake moves normally, so in this case, we want to move the tail of the snake to the new head to visualize movement.
      */
     // Check for food collision
@@ -179,7 +179,7 @@ window.onload = function() {
 
       // TODO 8: remove the "tail" cell from the snake_array. set tail variable to new head position
       // Hint: use the pop() function of an array to remove the last element of the array
-      //var tail = 
+      //var tail =
     }
 
     // Moves snake by appending tail to the beginning of the array
@@ -199,7 +199,7 @@ window.onload = function() {
     // Second clause to prevents reverse gear
     // TODO 10: finish for the other arrow keys
     // Hint: keycode 38 -> up key, 39 -> right key, 40 -> down key
-    // Checkpoint: After this step, you should be able to control the snake, eat food, and see the score increment. 
+    // Checkpoint: After this step, you should be able to control the snake, eat food, and see the score increment.
     // The only thing left is checking for collisions and adding background music! Go up for steps 11 and 12.
     if(key == "37" && direction != "right") {
       direction = "left";
