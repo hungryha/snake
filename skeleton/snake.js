@@ -28,7 +28,9 @@ window.onload = function() {
 
   function initSnake() {
     // This function creates a snake array of length 5
-    // Note that the "head" of the snake is the beginning of the array, and the "tail" is at the end of the array
+    // Note that the "head" of the snake is the beginning of the array(index 0), and the "tail" is at the end of the array(index 1)
+    // The coordinates for the "head" is {x:4, y:0}, the coordinates for the "tail" is {x:0, y:0}
+    // The snake grows from right to left on the canvas
     var length = 5;
     snake_array = [];
     for (var i = length-1; i >= 0; i--) {
@@ -54,9 +56,9 @@ window.onload = function() {
    * These are small, single task functions used by the bigger functions
    */
   function paintCell(x, y) {
-    /* This is a helper function to paint one cell white with a black border.
+    /* This is a helper function to paint one square cell of dimension cellwidth. The cell should be filled white with a black border.
      * TODO 3: implement paintCell
-     * Hints: use the fillStyle, fillRect, strokeStyle, strokeRect canvas functions
+     * Hints: use the fillStyle, fillRect, strokeStyle, strokeRect canvas functions, x, y, and cellwidth
      */
   }
 
@@ -75,7 +77,7 @@ window.onload = function() {
   function wallCollision(x, y) {
     /*
      * This function checks to see whether the snake is touching the wall.
-     * Function should return true of the x and y position collides with the wall. Otherwise return false.
+     * Function should return true if the x and y position collides with the wall. Otherwise return false.
      * TODO 12: implement this function
      *  Hint: use boardwidth, boardheight, and cellwidth
      */
@@ -107,7 +109,7 @@ window.onload = function() {
     // Paint Food
     // TODO 5: uncomment the following when you finish implementing paintCell
     //paintCell(food.x, food.y);
-    // Checkpoint: At the end of this step, you should be able to see the snake array in the upper and a food cell appear randomly on the canvas when you refresh.
+    // Checkpoint: At the end of this step, you should be able to see the snake array in the upper left corner and a food cell appear randomly on the canvas when you refresh.
 
     // Paint score
     var score_text = "Score: " + score;
@@ -117,15 +119,21 @@ window.onload = function() {
 
   function updateSnake() {
     /*
-     * This function checks for game over and updates the game state. The snake moves one unit in the direction it is facing. The game ends when the snake collides with the wall or collides with itself. The snake grows when it collides with food.
+     * This function checks for game over and updates the game state. The snake moves one unit in the direction it is facing. 
+     * The game ends when the snake collides with the wall or collides with itself. The snake grows when it collides with food.
      */
     var head_x = snake_array[0].x;
     var head_y = snake_array[0].y;
 
+    // coordinates for the new head of the snake after moving a step in the direction its facing
+    var new_head_x;
+    var new_head_y; 
+
     // Assigns new head position based on direction
     // TODO 6: finish for the other directions
+    // Hint: y coordinate grows downwards
     if (direction == "right") {
-      head_x++;
+      new_head_x = head_x + 1;
     }
     else if (direction == "left") {
       // here
@@ -138,8 +146,8 @@ window.onload = function() {
     }
 
     // Check for wall collisions and self collision
-    if (wallCollision(head_x, head_y) ||
-        selfCollision(head_x, head_y, snake_array)) {
+    if (wallCollision(new_head_x, new_head_y) ||
+        selfCollision(new_head_x, new_head_y, snake_array)) {
 
       // gameover, restart
       init();
@@ -147,15 +155,17 @@ window.onload = function() {
     }
 
     /*
-     * There are 2 senarios every time the snake moves. The first one is that it collides with the food. In this case, the food cell essentially becomes the new head of the snake. In the 2nd senario, the snake moves normally, so in this case, we want to move the tail of the snake to the new head to visualize movement.
+     * There are 2 senarios every time the snake moves. The first one is that it collides with the food. 
+     * In this case, the food cell essentially becomes the new head of the snake. 
+     * In the 2nd senario, the snake moves normally, so in this case, we want to move the tail of the snake to the new head to visualize movement.
      */
     // Check for food collision
-    if (head_x == food.x && head_y == food.y) {
+    if (new_head_x == food.x && new_head_y == food.y) {
 
       // TODO 7: increment the score
 
       // Creates new head, so snake becomes longer
-      var tail = {x:head_x, y:head_y};
+      var tail = {x:new_head_x, y:new_head_y};
 
       // Creates new food
       createFood();
@@ -175,7 +185,7 @@ window.onload = function() {
     // Moves snake by appending tail to the beginning of the array
     // TODO 9: Append tail to the beginning of snake_array
     // Hint: use the unshift() function
-    // Checkpoint: At the end of this step, you should be able to see the snake move across the screen, eat food, and see the score increment. The only thing left is checking for collisions!
+    // Checkpoint: At the end of this step, you should be able to see the snake move across the canvas from left to right
 
   }
 
@@ -189,7 +199,8 @@ window.onload = function() {
     // Second clause to prevents reverse gear
     // TODO 10: finish for the other arrow keys
     // Hint: keycode 38 -> up key, 39 -> right key, 40 -> down key
-    // Checkpoint: After this step, you should be able to control the snake, eat food, and see the score increment. The only thing left is checking for collisions and adding background music! Go up for steps 11 and 12.
+    // Checkpoint: After this step, you should be able to control the snake, eat food, and see the score increment. 
+    // The only thing left is checking for collisions and adding background music! Go up for steps 11 and 12.
     if(key == "37" && direction != "right") {
       direction = "left";
     }
