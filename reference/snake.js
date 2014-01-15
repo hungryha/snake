@@ -93,6 +93,23 @@ window.onload = function() {
     var head_x = snake_array[0].x;
     var head_y = snake_array[0].y;
 
+    // Assigns new head position based on direction
+    if (direction == "right") head_x++;
+    else if (direction == "left") head_x--;
+    else if (direction == "up") head_y--;
+    else if (direction == "down") head_y++;
+
+    // Check for wall collisions and self collision
+    if (head_x >= boardwidth/cellwidth ||
+        head_x <= -1 ||
+        head_y >= boardheight/cellwidth ||
+        head_y <= -1 ||
+        selfCollision(head_x, head_y, snake_array)) {
+
+      // gameover, restart
+      init();
+      return;
+    }
     // Check for food collision
     if (head_x == food.x && head_y == food.y) {
       score++;
@@ -113,24 +130,6 @@ window.onload = function() {
 
     // Moves snake
     snake_array.unshift(tail) // Appends tail to beginning of array
-
-    // Assigns new head position based on direction
-    if (direction == "right") head_x++;
-    else if (direction == "left") head_x--;
-    else if (direction == "up") head_y--;
-    else if (direction == "down") head_y++;
-
-    // Check for wall collisions and self collision
-    if (head_x >= boardwidth/cellwidth ||
-        head_x <= -1 ||
-        head_y >= boardheight/cellwidth ||
-        head_y <= -1 ||
-        selfCollision(head_x, head_y, snake_array)) {
-
-      // gameover, restart
-      init();
-      return;
-    }
   }
 
   function render() {
